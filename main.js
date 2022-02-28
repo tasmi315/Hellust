@@ -2,6 +2,7 @@ var config = {
     type: Phaser.AUTO,
     width: 500,
     height: 500,
+    
     physics: {
         default: 'arcade',
         arcade: {
@@ -16,53 +17,66 @@ var config = {
 };
 
 var game = new Phaser.Game(config);
+var map;
 var player;
+var platforms;
 function preload ()
 {
       
-    this.load.spritesheet('slime', 'slimebuddy.png', { frameWidth: 32, frameHeight: 32 });  
+    this.load.image('tiles', 'Hospital TileSet.png');
+    this.load.tilemapTiledJSON('map','test_level.json');
+    this.load.spritesheet('doctor', 'doctorz.png', { frameWidth: 99, frameHeight: 99 });  
 }
 
 function create ()
-{
-    player = this.physics.add.sprite(100, 450, 'slime');
+{ 
+    // loading the background
+    map = this.make.tilemap({key: 'map'});
+    tileset = map.addTilesetImage('hospital_tileset', 'tiles');
+    platforms = map.createStaticLayer('furniture', tileset, 0, 0);
+    platforms.setCollisionByExclusion(-1, true);
+        
+    
+    // Adding the doctor into the scene 
+    player = this.physics.add.sprite(100, 450, 'doctor');
     player.setBounce(0.2);
     player.setCollideWorldBounds(true);
     //  Our player animations, turning, walking left and walking right.
     this.anims.create({
         key: 'left',
-        frames: this.anims.generateFrameNumbers('slime', { start: 6, end: 11 }),
+        frames: this.anims.generateFrameNumbers('doctor', { start: 5, end: 9 }),
         frameRate: 10,
         repeat: -1
     });
 
     this.anims.create({
         key: 'up',
-        frames: this.anims.generateFrameNumbers('slime', { start: 18, end: 23 }),
+        frames: this.anims.generateFrameNumbers('doctor', { start: 0, end: 4 }),
         frameRate: 10,
         repeat: -1
     });
         
     this.anims.create({
         key: 'down',
-        frames: this.anims.generateFrameNumbers('slime', { start: 24, end: 29 }),
+        frames: this.anims.generateFrameNumbers('doctor', { start: 10, end: 14 }),
         frameRate: 10,
         repeat: -1
     });
         
     this.anims.create({
         key: 'right',
-        frames: this.anims.generateFrameNumbers('slime', { start: 12, end: 17 }),
+        frames: this.anims.generateFrameNumbers('doctor', { start: 15, end: 19 }),
         frameRate: 10,
         repeat: -1
     });
     
-    this.anims.create({
+   /* this.anims.create({
         key: 'turn',
-        frames: [ { key: 'slime', frame: 4 } ],
+        frames: [ { key: 'doctor', frame: 10 } ],
         frameRate: 20
-    });
+    });*/
     
+    this.physics.add.collider(player, platforms);
     cursors = this.input.keyboard.createCursorKeys();
         
 }
