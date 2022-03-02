@@ -1,7 +1,7 @@
 var config = {
     type: Phaser.AUTO,
-    width: 500,
-    height: 500,
+    width: 400,
+    height: 400,
     
     physics: {
         default: 'arcade',
@@ -19,22 +19,45 @@ var config = {
 var game = new Phaser.Game(config);
 var map;
 var player;
-var platforms;
+var background;
+var tileset;
+var furniture;
+var wall_furniture;
+
 function preload ()
 {
       
     this.load.image('tiles', 'Hospital TileSet.png');
-    this.load.tilemapTiledJSON('map','test_level.json');
-    this.load.spritesheet('doctor', 'doctorz.png', { frameWidth: 99, frameHeight: 99 });  
+    this.load.tilemapTiledJSON('map','hallway.json');
+    this.load.spritesheet('doctor', 'doctorp.png', { frameWidth: 24, frameHeight: 27 });  
 }
 
 function create ()
 { 
     
+    // adding background to the game 
+    map = this.make.tilemap({key: 'map'});
+    tileset = map.addTilesetImage('hospital_tiles', 'tiles');
+    tileset = map.addTilesetImage('hospital_tiles', 'tiles');
+    background = map.createStaticLayer('Background', tileset, 0, 0);
+    furniture = map.createStaticLayer('Furniture', tileset, 0, 0);
+    wall_furniture = map.createStaticLayer('Wall furniture', tileset, 0, 0);
+    
+
+    
+    
     // Adding the doctor into the scene 
     player = this.physics.add.sprite(100, 450, 'doctor');
     player.setBounce(0.2);
     player.setCollideWorldBounds(true);
+    
+    
+    
+    
+    
+    
+    
+    
     //  Our player animations, turning, walking left and walking right.
     this.anims.create({
         key: 'left',
@@ -73,6 +96,7 @@ function create ()
     cursors = this.input.keyboard.createCursorKeys();
         
 }
+
 function update ()
 {
     if (cursors.left.isDown)
