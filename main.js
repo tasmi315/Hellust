@@ -42,6 +42,7 @@ function create ()
     background = map.createStaticLayer('Background', tileset, 0, 0);
     furniture = map.createStaticLayer('Furniture', tileset, 0, 0);
     wall_furniture = map.createStaticLayer('Wall furniture', tileset, 0, 0);
+    furniture.setCollisionByExclusion(-1, true);
     
 
     
@@ -94,6 +95,9 @@ function create ()
     });*/
     
     cursors = this.input.keyboard.createCursorKeys();
+    
+    //  Collide the player and the stars with the platforms
+    this.physics.add.collider(player, furniture);
         
 }
 
