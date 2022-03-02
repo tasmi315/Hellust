@@ -1,7 +1,7 @@
 var config = {
     type: Phaser.AUTO,
-    width: 400,
-    height: 400,
+    width: 288,
+    height: 144,
     
     physics: {
         default: 'arcade',
@@ -47,7 +47,7 @@ function create ()
     
     
     // Adding the doctor into the scene 
-    player = this.physics.add.sprite(100, 450, 'doctor');
+    player = this.physics.add.sprite(100, 100, 'doctor');
     player.setBounce(0.2);
     player.setCollideWorldBounds(true);
     
