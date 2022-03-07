@@ -29,7 +29,8 @@ var tileset;
 var furniture;
 var wall_furniture;
 var health;
-var HealthLayer
+var HealthLayer;
+var healthScore = 0;
 
 function preload ()
 {
@@ -106,6 +107,14 @@ function create ()
        obj.body.width = object.width; 
        obj.body.height = object.height; 
 });
+    //score
+    text = this.add.text(0, 0, `Health: ${healthScore}x`, {
+      fontSize: '15px',
+      fill: '#ffffff'
+    });
+    text.setScrollFactor(0);
+    
+    
     //  Collide the player and the stars with the platforms
     this.physics.add.collider(player, furniture);
     this.physics.add.overlap(player, health, collectHealth, null, this);
@@ -148,4 +157,7 @@ function update ()
 }
 function collectHealth(player, health) {
     health.disableBody(true, true);
+    healthScore ++;
+    text.setText(`Health: ${healthScore}x`); 
+    
 }
